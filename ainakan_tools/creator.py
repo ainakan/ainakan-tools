@@ -4,9 +4,9 @@ import os
 import platform
 from typing import Dict, List, Tuple
 
-import frida
+import ainakan
 
-from frida_tools.application import ConsoleApplication
+from ainakan_tools.application import ConsoleApplication
 
 
 def main() -> None:
@@ -71,17 +71,17 @@ class CreatorApplication(ConsoleApplication):
         ] = f"""{{
   "name": "{self._project_name}-agent",
   "version": "1.0.0",
-  "description": "Frida agent written in TypeScript",
+  "description": "Ainakan agent written in TypeScript",
   "private": true,
   "main": "agent/index.ts",
   "type": "module",
   "scripts": {{
     "prepare": "npm run build",
-    "build": "frida-compile agent/index.ts -o _agent.js -c",
-    "watch": "frida-compile agent/index.ts -o _agent.js -w"
+    "build": "ainakan-compile agent/index.ts -o _agent.js -c",
+    "watch": "ainakan-compile agent/index.ts -o _agent.js -w"
   }},
   "devDependencies": {{
-    "@types/frida-gum": "^19.0.0",
+    "@types/ainakan-gum": "^19.0.0",
     "@types/node": "^18.14.0"
   }}
 }}
@@ -143,7 +143,7 @@ export function log(message: string): void {
         message = """\
 Run `npm install` to bootstrap, then:
 - Keep one terminal running: npm run watch
-- Inject agent using the REPL: frida Calculator -l _agent.js
+- Inject agent using the REPL: ainakan Calculator -l _agent.js
 - Edit agent/*.ts - REPL will live-reload on save
 
 Tip: Use an editor like Visual Studio Code for code completion, inline docs,
@@ -173,19 +173,19 @@ shared_module('{self._project_name}', '{self._project_name}.c',
         ] = """\
 #include <gum/guminterceptor.h>
 
-static void frida_log (const char * format, ...);
-extern void _frida_log (const gchar * message);
+static void ainakan_log (const char * format, ...);
+extern void _ainakan_log (const gchar * message);
 
 void
 init (void)
 {
-  frida_log ("init()");
+  ainakan_log ("init()");
 }
 
 void
 finalize (void)
 {
-  frida_log ("finalize()");
+  ainakan_log ("finalize()");
 }
 
 void
@@ -195,7 +195,7 @@ on_enter (GumInvocationContext * ic)
 
   arg0 = gum_invocation_context_get_nth_argument (ic, 0);
 
-  frida_log ("on_enter() arg0=%p", arg0);
+  ainakan_log ("on_enter() arg0=%p", arg0);
 }
 
 void
@@ -205,11 +205,11 @@ on_leave (GumInvocationContext * ic)
 
   retval = gum_invocation_context_get_return_value (ic);
 
-  frida_log ("on_leave() retval=%p", retval);
+  ainakan_log ("on_leave() retval=%p", retval);
 }
 
 static void
-frida_log (const char * format,
+ainakan_log (const char * format,
            ...)
 {
   gchar * message;
@@ -219,7 +219,7 @@ frida_log (const char * format,
   message = g_strdup_vprintf (format, args);
   va_end (args);
 
-  _frida_log (message);
+  _ainakan_log (message);
 
   g_free (message);
 }
@@ -227,7 +227,7 @@ frida_log (const char * format,
 
         assets[".gitignore"] = "/build/\n"
 
-        session = frida.attach(0)
+        session = ainakan.attach(0)
         script = session.create_script("rpc.exports.getBuiltins = () => CModule.builtins;")
         self._on_script_created(script)
         script.load()
@@ -250,7 +250,7 @@ frida_log (const char * format,
 
         message = f"""\
 Run `meson build && ninja -C build` to build, then:
-- Inject CModule using the REPL: frida Calculator -C {cmodule_path}
+- Inject CModule using the REPL: ainakan Calculator -C {cmodule_path}
 - Edit *.c, and build incrementally through `ninja -C build`
 - REPL will live-reload whenever {cmodule_path} changes on disk
 """

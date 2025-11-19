@@ -3,7 +3,7 @@ import {
     TraceBufferReader,
     TraceSession,
     TraceStrategy,
-} from "frida-itrace";
+} from "ainakan-itrace";
 
 type RawTraceStrategy = RawTraceThreadStrategy | RawTraceRangeStrategy;
 type RawTraceThreadStrategy = ["thread", ["id", number] | ["index", number]];

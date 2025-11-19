@@ -4,10 +4,10 @@ import sys
 from timeit import default_timer as timer
 from typing import Any, Dict, List, Optional
 
-import frida
+import ainakan
 
-from frida_tools.application import ConsoleApplication, await_ctrl_c
-from frida_tools.cli_formatting import format_compiled, format_compiling, format_diagnostic, format_error
+from ainakan_tools.application import ConsoleApplication, await_ctrl_c
+from ainakan_tools.cli_formatting import format_compiled, format_compiling, format_diagnostic, format_error
 
 
 def main() -> None:
@@ -74,7 +74,7 @@ class CompilerApplication(ConsoleApplication):
             "externals": options.external,
         }
 
-        compiler = frida.Compiler()
+        compiler = ainakan.Compiler()
         self._compiler = compiler
 
         def on_compiler_finished() -> None:

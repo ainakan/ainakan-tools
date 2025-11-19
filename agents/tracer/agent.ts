@@ -1,4 +1,4 @@
-import type _Java from "frida-java-bridge";
+import type _Java from "ainakan-java-bridge";
 
 const MAX_HANDLERS_PER_REQUEST = 1000;
 
@@ -1020,10 +1020,10 @@ function registerLazyBridgeGetter(name: string) {
 }
 
 function lazyLoadBridge(name: string): unknown {
-    send({ type: "frida:load-bridge", name });
+    send({ type: "ainakan:load-bridge", name });
     let bridge: unknown;
-    recv("frida:bridge-loaded", message => {
-        bridge = Script.evaluate(`/frida/bridges/${message.filename}`,
+    recv("ainakan:bridge-loaded", message => {
+        bridge = Script.evaluate(`/ainakan/bridges/${message.filename}`,
             "(function () { " + [
                 message.source,
                 `Object.defineProperty(globalThis, '${name}', { value: bridge });`,

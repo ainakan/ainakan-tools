@@ -66,7 +66,7 @@ export default function App() {
 
     const connectionError = lostConnection
         ? <Callout
-            title="Lost connection to frida-trace"
+            title="Lost connection to ainakan-trace"
             intent="danger"
         />
         : null;

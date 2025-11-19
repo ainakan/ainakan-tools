@@ -1,5 +1,5 @@
 import { Buffer } from "buffer";
-import RemoteStreamController, { IncomingStream, Packet } from "frida-remote-stream";
+import RemoteStreamController, { IncomingStream, Packet } from "ainakan-remote-stream";
 import fs from "fs";
 import fsPath from "path";
 

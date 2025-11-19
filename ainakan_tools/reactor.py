@@ -3,7 +3,7 @@ import threading
 import time
 from typing import Callable, Deque, Optional, Tuple, Union
 
-import frida
+import ainakan
 
 
 class Reactor:
@@ -22,9 +22,9 @@ class Reactor:
         self._lock = threading.Lock()
         self._cond = threading.Condition(self._lock)
 
-        self.io_cancellable = frida.Cancellable()
+        self.io_cancellable = ainakan.Cancellable()
 
-        self.ui_cancellable = frida.Cancellable()
+        self.ui_cancellable = ainakan.Cancellable()
         self._ui_cancellable_fd = self.ui_cancellable.get_pollfd()
 
     def __del__(self) -> None:
@@ -68,7 +68,7 @@ class Reactor:
                 with self.io_cancellable:
                     try:
                         work()
-                    except frida.OperationCancelledError:
+                    except ainakan.OperationCancelledError:
                         pass
 
             with self._lock:

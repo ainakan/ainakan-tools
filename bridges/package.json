@@ -1,13 +1,13 @@
 {
-    "name": "frida-bridges",
+    "name": "ainakan-bridges",
     "version": "1.0.0",
-    "description": "Bridges shipped with frida-tools for convenience",
+    "description": "Bridges shipped with ainakan-tools for convenience",
     "type": "module",
     "scripts": {
         "build": "rollup --config rollup.config.ts --configPlugin typescript"
     },
     "devDependencies": {
-        "@frida/rollup-plugin-node-polyfills": "^3.0.1",
+        "@ainakan/rollup-plugin-node-polyfills": "^3.0.1",
         "@rollup/plugin-node-resolve": "^16.0.1",
         "@rollup/plugin-terser": "^0.4.4",
         "@rollup/plugin-typescript": "^12.1.2",
@@ -16,8 +16,8 @@
         "typescript": "^5.8.3"
     },
     "dependencies": {
-        "frida-java-bridge": "^7.0.10",
-        "frida-objc-bridge": "^8.0.5",
-        "frida-swift-bridge": "^3.0.2"
+        "ainakan-java-bridge": "^7.0.10",
+        "ainakan-objc-bridge": "^8.0.5",
+        "ainakan-swift-bridge": "^3.0.2"
     }
 }

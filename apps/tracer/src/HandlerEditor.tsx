@@ -63,7 +63,7 @@ export default function HandlerEditor({ handlerId, handlerCode, onChange, onSave
 }
 
 async function handleEditorWillMount(monaco: any) {
-    const typingsResponse = await fetch("https://raw.githubusercontent.com/DefinitelyTyped/DefinitelyTyped/master/types/frida-gum/index.d.ts");
+    const typingsResponse = await fetch("https://raw.githubusercontent.com/DefinitelyTyped/DefinitelyTyped/master/types/ainakan-gum/index.d.ts");
     const typingsContent = await typingsResponse.text();
     monaco.languages.typescript.typescriptDefaults.addExtraLib(typingsContent + `
       declare function defineHandler(handler: TraceHandler): TraceHandler;

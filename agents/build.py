@@ -44,8 +44,8 @@ def build(npm: Path, inputs: List[Path], output_js: Path, priv_dir: Path):
         [npm, "install"], stdout=subprocess.PIPE, stderr=subprocess.STDOUT, encoding="utf-8", cwd=priv_dir, check=True
     )
 
-    frida_compile = priv_dir / "node_modules" / ".bin" / f"frida-compile{script_suffix()}"
-    subprocess.run([frida_compile, entrypoint, "-S", "-c", "-o", output_js], cwd=priv_dir, check=True)
+    ainakan_compile = priv_dir / "node_modules" / ".bin" / f"ainakan-compile{script_suffix()}"
+    subprocess.run([ainakan_compile, entrypoint, "-S", "-c", "-o", output_js], cwd=priv_dir, check=True)
 
 
 def script_suffix() -> str:

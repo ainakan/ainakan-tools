@@ -3,9 +3,9 @@ import path from "path";
 import { defineConfig, Plugin } from "vite";
 import react from "@vitejs/plugin-react";
 
-const R2_WASM_PATH = path.join(import.meta.dirname, "node_modules", "@frida", "react-use-r2", "dist", "r2.wasm");
+const R2_WASM_PATH = path.join(import.meta.dirname, "node_modules", "@ainakan", "react-use-r2", "dist", "r2.wasm");
 
-const tracerPortStr = process.env.FRIDA_TRACE_PORT;
+const tracerPortStr = process.env.AINAKAN_TRACE_PORT;
 const tracerPort = (tracerPortStr !== undefined) ? parseInt(tracerPortStr) : 5172;
 
 const r2WasmPlugin: Plugin = {

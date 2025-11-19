@@ -45,10 +45,10 @@ function registerLazyBridgeGetter(name: string) {
 }
 
 function lazyLoadBridge(name: string): unknown {
-    send({ type: "frida:load-bridge", name });
+    send({ type: "ainakan:load-bridge", name });
     let bridge: unknown;
-    recv("frida:bridge-loaded", message => {
-        bridge = Script.evaluate(`/frida/bridges/${message.filename}`,
+    recv("ainakan:bridge-loaded", message => {
+        bridge = Script.evaluate(`/ainakan/bridges/${message.filename}`,
             "(function () { " + [
                 message.source,
                 `Object.defineProperty(globalThis, '${name}', { value: bridge });`,
@@ -72,21 +72,21 @@ interface QuickCommandHandler {
 }
 
 const rpcExports: RpcExports = {
-    fridaEvaluateExpression(expression: string) {
+    ainakanEvaluateExpression(expression: string) {
         return evaluate(() => globalThis.eval(expression));
     },
-    fridaEvaluateQuickCommand(tokens: string[]) {
+    ainakanEvaluateQuickCommand(tokens: string[]) {
         return evaluate(() => repl._invokeQuickCommand(tokens));
     },
-    fridaLoadCmodule(code: string | null, toolchain: CModuleToolchain) {
+    ainakanLoadCmodule(code: string | null, toolchain: CModuleToolchain) {
         const cs = globalThis.cs;
 
-        if (cs._frida_log === undefined)
-            cs._frida_log = new NativeCallback(onLog, "void", ["pointer"]);
+        if (cs._ainakan_log === undefined)
+            cs._ainakan_log = new NativeCallback(onLog, "void", ["pointer"]);
 
         let codeToLoad: string | ArrayBuffer | null = code;
         if (code === null) {
-            recv("frida:cmodule-payload", (message, data) => {
+            recv("ainakan:cmodule-payload", (message, data) => {
                 codeToLoad = data;
             });
         }

@@ -1,3 +1,3 @@
-import ObjC from "frida-objc-bridge";
+import ObjC from "ainakan-objc-bridge";
 
 export default ObjC;

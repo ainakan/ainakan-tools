@@ -5,7 +5,7 @@ import os
 from typing import TYPE_CHECKING, Optional, Sequence
 
 if TYPE_CHECKING:
-    import frida_tools.repl
+    import ainakan_tools.repl
 
 
 class Magic(abc.ABC):
@@ -17,7 +17,7 @@ class Magic(abc.ABC):
     def required_args_count(self) -> int:
         pass
 
-    def execute(self, repl: "frida_tools.repl.REPLApplication", args: Sequence[str]) -> Optional[bool]:
+    def execute(self, repl: "ainakan_tools.repl.REPLApplication", args: Sequence[str]) -> Optional[bool]:
         pass
 
 
@@ -30,7 +30,7 @@ class Resume(Magic):
     def required_args_count(self) -> int:
         return 0
 
-    def execute(self, repl: "frida_tools.repl.REPLApplication", args: Sequence[str]) -> None:
+    def execute(self, repl: "ainakan_tools.repl.REPLApplication", args: Sequence[str]) -> None:
         repl._reactor.schedule(lambda: repl._resume())
 
 
@@ -43,7 +43,7 @@ class Load(Magic):
     def required_args_count(self) -> int:
         return 1
 
-    def execute(self, repl: "frida_tools.repl.REPLApplication", args: Sequence[str]) -> None:
+    def execute(self, repl: "ainakan_tools.repl.REPLApplication", args: Sequence[str]) -> None:
         try:
             proceed = repl._get_confirmation(
                 "Are you sure you want to load a new script and discard all current state?"
@@ -67,7 +67,7 @@ class Reload(Magic):
     def required_args_count(self) -> int:
         return 0
 
-    def execute(self, repl: "frida_tools.repl.REPLApplication", args: Sequence[str]) -> bool:
+    def execute(self, repl: "ainakan_tools.repl.REPLApplication", args: Sequence[str]) -> bool:
         try:
             repl._perform_on_reactor_thread(lambda: repl._load_script())
             return True
@@ -81,7 +81,7 @@ class Unload(Magic):
     def required_args_count(self) -> int:
         return 0
 
-    def execute(self, repl: "frida_tools.repl.REPLApplication", args: Sequence[str]) -> None:
+    def execute(self, repl: "ainakan_tools.repl.REPLApplication", args: Sequence[str]) -> None:
         repl._unload_script()
 
 
@@ -96,7 +96,7 @@ class Autoperform(Magic):
     def required_args_count(self) -> int:
         return 1
 
-    def execute(self, repl: "frida_tools.repl.REPLApplication", args: Sequence[str]) -> None:
+    def execute(self, repl: "ainakan_tools.repl.REPLApplication", args: Sequence[str]) -> None:
         repl._autoperform_command(args[0])
 
 
@@ -111,7 +111,7 @@ class Autoreload(Magic):
     def required_args_count(self) -> int:
         return 1
 
-    def execute(self, repl: "frida_tools.repl.REPLApplication", args: Sequence[str]) -> None:
+    def execute(self, repl: "ainakan_tools.repl.REPLApplication", args: Sequence[str]) -> None:
         if args[0] not in self._VALID_ARGUMENTS:
             raise ValueError("Autoreload command only receive on or off as an argument")
 
@@ -136,7 +136,7 @@ class Exec(Magic):
     def required_args_count(self) -> int:
         return 1
 
-    def execute(self, repl: "frida_tools.repl.REPLApplication", args: Sequence[str]) -> None:
+    def execute(self, repl: "ainakan_tools.repl.REPLApplication", args: Sequence[str]) -> None:
         if not os.path.exists(args[0]):
             repl._print("Can't read the given file because it does not exist")
             return
@@ -158,7 +158,7 @@ class Time(Magic):
     def required_args_count(self) -> int:
         return -2
 
-    def execute(self, repl: "frida_tools.repl.REPLApplication", args: Sequence[str]) -> None:
+    def execute(self, repl: "ainakan_tools.repl.REPLApplication", args: Sequence[str]) -> None:
         repl._exec_and_print(
             repl._evaluate_expression,
             """
@@ -183,7 +183,7 @@ class Help(Magic):
     def required_args_count(self) -> int:
         return 0
 
-    def execute(self, repl: "frida_tools.repl.REPLApplication", args: Sequence[str]) -> None:
+    def execute(self, repl: "ainakan_tools.repl.REPLApplication", args: Sequence[str]) -> None:
         repl._print("Available commands: ")
         for name, command in repl._magic_command_args.items():
             if command.required_args_count >= 0:
@@ -194,5 +194,5 @@ class Help(Magic):
             repl._print(f"  %{name}{required_args} - {command.description}")
 
         repl._print("")
-        repl._print("For help with Frida scripting API, check out https://frida.re/docs/")
+        repl._print("For help with Ainakan scripting API, check out https://ainakan.re/docs/")
         repl._print("")
